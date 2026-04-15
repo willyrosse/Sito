@@ -133,7 +133,7 @@
 
   /* TESTIMONIANZE */
   #testimonianze { background: var(--gray-100); border-top: 1px solid rgba(255,255,255,0.06); border-bottom: 1px solid rgba(255,255,255,0.06); }
-  .testi-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-top: 3rem; }
+  .testi-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem; margin-top: 3rem; }
   .testi-card { padding: 2rem; background: var(--gray-200); border: 1px solid rgba(255,255,255,0.06); border-radius: 10px; display: flex; flex-direction: column; transition: border-color 0.3s; }
   .testi-card:hover { border-color: rgba(79,110,247,0.3); }
   .testi-stars { color: #f59e0b; font-size: 0.85rem; margin-bottom: 1rem; letter-spacing: 2px; }
@@ -143,19 +143,6 @@
   .testi-avatar { width: 40px; height: 40px; border-radius: 50%; background: var(--accent-dim); border: 1px solid rgba(79,110,247,0.3); display: flex; align-items: center; justify-content: center; font-family: var(--font-display); font-weight: 700; font-size: 0.85rem; color: var(--accent); flex-shrink: 0; }
   .testi-name { font-size: 0.88rem; font-weight: 500; }
   .testi-role { font-size: 0.75rem; color: var(--gray-500); }
-
-  /* FAQ */
-  #faq { border-top: 1px solid rgba(255,255,255,0.06); }
-  .faq-layout { display: grid; grid-template-columns: 1fr 2fr; gap: 4rem; align-items: start; }
-  .faq-left { position: sticky; top: 100px; }
-  .faq-item { border-bottom: 1px solid rgba(255,255,255,0.06); overflow: hidden; }
-  .faq-question { width: 100%; background: transparent; border: none; cursor: pointer; display: flex; align-items: center; justify-content: space-between; padding: 1.5rem 0; font-family: var(--font-body); font-size: 1rem; font-weight: 500; color: var(--white); text-align: left; gap: 1rem; }
-  .faq-icon { width: 24px; height: 24px; flex-shrink: 0; background: var(--gray-300); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.9rem; transition: background 0.2s, transform 0.3s; }
-  .faq-item.open .faq-icon { background: var(--accent); transform: rotate(45deg); }
-  .faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.4s ease; }
-  .faq-item.open .faq-answer { max-height: 400px; }
-  .faq-answer-inner { padding-bottom: 1.5rem; font-size: 0.95rem; color: var(--gray-500); line-height: 1.7; }
-  .faq-answer-inner strong { color: var(--white); font-weight: 500; }
 
   /* CONTATTO */
   #contatti { background: var(--gray-100); border-top: 1px solid rgba(255,255,255,0.06); }
@@ -279,8 +266,8 @@
 
   /* MOBILE */
   @media (max-width: 900px) {
-    .story-grid, .faq-layout, .contact-layout, .results-header { grid-template-columns: 1fr; gap: 2rem; }
-    .story-left, .faq-left, .contact-left { position: static; }
+    .story-grid, .contact-layout, .results-header { grid-template-columns: 1fr; gap: 2rem; }
+    .story-left, .contact-left { position: static; }
     .services-grid, .testi-grid, .proof-cards { grid-template-columns: 1fr; }
     .benefits-list { grid-template-columns: 1fr; }
     .hero-stats { gap: 2rem; }
@@ -305,7 +292,6 @@
     <li><a href="#cosa-faccio">Cosa faccio</a></li>
     <li><a href="#risultati">Risultati</a></li>
     <li><a href="#testimonianze">Testimonianze</a></li>
-    <li><a href="#faq">FAQ</a></li>
     <li><a href="#contatti" class="nav-cta">Candidati</a></li>
   </ul>
   <div class="hamburger" onclick="toggleMobileMenu()">
@@ -460,6 +446,17 @@
 
     <div class="testi-grid">
       <div class="testi-card reveal">
+        <div class="testi-avatar">AC</div>
+          <div>
+            <div class="testi-name">Alessandro Colella</div>
+            <div class="testi-role">19 anni · Studente di fisica</div>
+        <div class="testi-stars">★★★★★</div>
+        <p class="testi-text">"Azienda top 1 sul mercato in questo mondo, mai trovato un’ecosistema fatto così bene, con formazione aggiornata da professionisti e strumenti validissimi per guadagnare con poco tempo e con il pc nel mentre si studia un topic così importante quale è l’educazione finanziaria. Impeccabile anche il supporto della community e della super disponibilità di William, un ragazzo eccezionale, che mi insegna tutto ciò che sa e mi aiuta 24/7 con i miei progressi. Con lui oggi condivido un vero e proprio percorso di crescita e di amicizia al di là del lavoro. Una vera e propria famiglia ✨"</p>
+        <div class="testi-author">
+          </div>
+        </div>
+      </div>
+      <div class="testi-card reveal">
         <div class="testi-avatar">GM</div>
           <div>
             <div class="testi-name">Gabriele Montemagno</div>
@@ -467,44 +464,6 @@
         <div class="testi-stars">★★★★★</div>
         <p class="testi-text">"Ho iniziato ormai un anno fa e devo dire che mi rendo conto che ho fatto tanti step avanti, percorso ad oggi che mi ha dato tanto, day by day seguito e supportato."</p>
         <div class="testi-author">
-          
-          </div>
-        </div>
-      </div>
-      <div class="testi-card reveal">
-        <div class="testi-avatar">GD</div>
-          <div>
-            <div class="testi-name">Giorgio De Carli</div>
-            <div class="testi-role">21 anni · Ex animatore</div>
-        <div class="testi-stars">★★★★★</div>
-        <p class="testi-text">"ho trovato in questo gruppo quel “ diverso” , quel salto di qualità che cercavo da tempo , mi sono reso conto di come con strumenti come questi potevo esprimere al meglio il mio potenziale."</p>
-        <div class="testi-author">
-          
-          </div>
-        </div>
-      </div>
-      <div class="testi-card reveal">
-        <div class="testi-avatar">NR</div>
-          <div>
-            <div class="testi-name">Nicol Ravaschio</div>
-            <div class="testi-role">21 anni · Ex dialogatrice per le ONG</div>
-        <div class="testi-stars">★★★★★</div>
-        <p class="testi-text">"da fare"</p>
-        <div class="testi-author">
-          
-          </div>
-        </div>
-      </div>
-      <div class="testi-card reveal">
-        <div class="testi-avatar">AC</div>
-        <div class="testi-name">Alessandro Colella</div>
-            <div class="testi-role">19 anni · Studente di fisica</div>
-        <div class="testi-stars">★★★★★</div>
-        <p class="testi-text">"Azienda top 1 sul mercato in questo mondo, mai trovato un’ecosistema fatto così bene, con formazione aggiornata da professionisti e strumenti validissimi per guadagnare con poco tempo e con il pc nel mentre si studia un topic così importante quale è l’educazione finanziaria. Impeccabile anche il supporto della community e della super disponibilità di William, un ragazzo eccezionale, che mi insegna tutto ciò che sa e mi aiuta 24/7 con i miei progressi. Con lui oggi condivido un vero e proprio percorso di crescita e di amicizia al di là del lavoro. Una vera e propria famiglia ✨"</p>
-        <div class="testi-author">
-          
-          <div>
-            
           </div>
         </div>
       </div>
@@ -514,56 +473,20 @@
             <div class="testi-name">Mayan Bulatovic</div>
             <div class="testi-role">19 anni · Studente di informatica</div>
         <div class="testi-stars">★★★★★</div>
-        <p class="testi-text">"Ho iniziato quest'attività da qualche mese e non tornerei mai indietro: è stata davvero una delle migliori scelte che abbia mai fatto in quanto mi ha permesso di avere una visione più chiara su ciò che voglio fare. Sopratutto mi sono trovato super affiancato dalla community , cosa che in altre attività non ho mai avuto e che solo ora mi sto rendendo conto di quanto sia importante, in particolare sono stato affiancato da William che ogni giorno nonostante fosse super impegnato è riuscito a guidarmi e aiutarmi soprattutto quando ero all'inizio e ad oggi siamo grandi amici. Questo tipo di attività non mi sta portando solo risultati materiali, ma mi sta rendendo anche una persona migliore in tutti gli aspetti della mia vita."</p>
+        <p class="testi-text">"Ho iniziato quest’attività da qualche mese e non tornerei mai indietro: è stata davvero una delle migliori scelte che abbia mai fatto in quanto mi ha permesso di avere una visione più chiara su ciò che voglio fare. Sopratutto mi sono trovato super affiancato dalla community , cosa che in altre attività non ho mai avuto e che solo ora mi sto rendendo conto di quanto sia importante, in particolare sono stato affiancato da William che ogni giorno nonostante fosse super impegnato è riuscito a guidarmi e aiutarmi soprattutto quando ero all’inizio e ad oggi siamo grandi amici. Questo tipo di attività non mi sta portando solo risultati materiali, ma mi sta rendendo anche una persona migliore in tutti gli aspetti della mia vita."</p>
         <div class="testi-author">
-          
           </div>
         </div>
       </div>
       <div class="testi-card reveal">
-         <div class="testi-avatar">BT</div>
+        <div class="testi-avatar">GD</div>
           <div>
-            <div class="testi-name">Beatrice Tiberi</div>
-            <div class="testi-role">22 anni · Ex barista sottopagata</div>
+            <div class="testi-name">Giorgio De Carli</div>
+            <div class="testi-role">21 anni · Ex animatore</div>
         <div class="testi-stars">★★★★★</div>
-        <p class="testi-text">"Da fare"</p>
+        <p class="testi-text">"ho trovato in questo gruppo quel " diverso" , quel salto di qualità che cercavo da tempo , mi sono reso conto di come con strumenti come questi potevo esprimere al meglio il mio potenziale."</p>
         <div class="testi-author">
-         
           </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section id="faq">
-  <div class="container">
-    <div class="faq-layout">
-      <div class="faq-left reveal">
-        <div class="section-eyebrow">FAQ</div>
-        <h2 class="section-title">Le domande più frequenti</h2>
-        <p style="color:var(--gray-500);font-size:0.95rem;line-height:1.7;margin-top:1rem;">Se dopo le FAQ hai ancora dubbi, candidati e ne parliamo.</p>
-      </div>
-      <div class="faq-list reveal">
-        <div class="faq-item">
-          <button class="faq-question" onclick="toggleFaq(this)">Non ho esperienza. Funziona lo stesso?<span class="faq-icon">+</span></button>
-          <div class="faq-answer"><p class="faq-answer-inner"><strong>Sì, ma a una condizione:</strong> devi essere disposto a imparare. Non serve esperienza tecnica. Serve la voglia di applicare un metodo senza saltare i passaggi. <strong>Il 90% delle persone</strong> sono partite da zero.</p></div>
-        </div>
-        <div class="faq-item">
-          <button class="faq-question" onclick="toggleFaq(this)">In quanto tempo vedo i primi risultati?<span class="faq-icon">+</span></button>
-          <div class="faq-answer"><p class="faq-answer-inner"><strong>Dipende esclusivamente da te.</strong> Ci sono persone che iniziano a guadagnare nella prima settimana e ci sono persone che lo fanno dopo qualche mese. Chiaramente è questione di impegno che puoi dedicarci. Non prometto miracoli, prometto un percorso chiaro.</p></div>
-        </div>
-        <div class="faq-item">
-          <button class="faq-question" onclick="toggleFaq(this)">Quanto tempo devo dedicarci ogni giorno?<span class="faq-icon">+</span></button>
-          <div class="faq-answer"><p class="faq-answer-inner">Personalmente io ho iniziato con <strong>30 minuti</strong> al giorno perché erano gli unici che avevo liberi, per poi incrementare nel tempo. Il sistema è progettato per chi ha già un lavoro o degli impegni universitari. Non devi mollare tutto — costruisci il nuovo mentre mantieni il vecchio.</p></div>
-        </div>
-        <div class="faq-item">
-          <button class="faq-question" onclick="toggleFaq(this)">Accetti tutti?<span class="faq-icon">+</span></button>
-          <div class="faq-answer"><p class="faq-answer-inner"><strong>No.</strong> Seleziono personalmente chi entra nel Team. Non voglio persone che cercano magia o soldi facili.</p></div>
-        </div>
-        <div class="faq-item">
-          <button class="faq-question" onclick="toggleFaq(this)">Quanto costa?<span class="faq-icon">+</span></button>
-          <div class="faq-answer"><p class="faq-answer-inner">Il costo dipende dal percorso che ti serve. <strong>Ne parliamo dopo la selezione</strong>, quando conoscerò la tua situazione reale.</p></div>
         </div>
       </div>
     </div>
@@ -608,12 +531,6 @@
                 <input type="text" id="cognome" placeholder="Rossi" autocomplete="family-name">
                 <span class="error-msg">Campo obbligatorio</span>
               </div>
-            </div>
-
-            <div class="form-group" id="grp-email">
-              <span class="field-label">Email *</span>
-              <input type="email" id="email" placeholder="nome@email.com" autocomplete="email">
-              <span class="error-msg">Inserisci un'email valida</span>
             </div>
 
             <div class="form-group" id="grp-eta">
@@ -819,14 +736,6 @@ const revealObserver = new IntersectionObserver(entries => {
 }, { threshold: 0.1 });
 revealEls.forEach(el => revealObserver.observe(el));
 
-/* ─── FAQ ─── */
-function toggleFaq(btn) {
-  const item = btn.closest('.faq-item');
-  const isOpen = item.classList.contains('open');
-  document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
-  if (!isOpen) item.classList.add('open');
-}
-
 /* ══════════════════════════════════════════════════════════
    FORM — BUG FIX COMPLETO
    Radio e checkbox sono <div> con onclick diretto sul div.
@@ -896,7 +805,6 @@ function validateStep(step) {
   if (step === 1) {
     valid = checkRequired('nome', 'grp-nome') & valid;
     valid = checkRequired('cognome', 'grp-cognome') & valid;
-    valid = checkEmail() & valid;
     valid = checkSelect('eta', 'grp-eta') & valid;
   }
 
@@ -948,15 +856,6 @@ function checkRequired(id, grpId) {
   return ok;
 }
 
-function checkEmail() {
-  const el = document.getElementById('email');
-  const grp = document.getElementById('grp-email');
-  const ok = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(el.value.trim());
-  grp.classList.toggle('has-error', !ok);
-  el.classList.toggle('error', !ok);
-  return ok;
-}
-
 function checkPhone() {
   const el = document.getElementById('whatsapp');
   const grp = document.getElementById('grp-whatsapp');
@@ -981,7 +880,6 @@ function collectStepData(step) {
   if (step === 1) {
     formData.nome = document.getElementById('nome').value.trim();
     formData.cognome = document.getElementById('cognome').value.trim();
-    formData.email = document.getElementById('email').value.trim();
     formData.eta = document.getElementById('eta').value;
   }
   if (step === 2) {
