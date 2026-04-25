@@ -237,17 +237,72 @@
   }
 }
   /* TESTIMONIANZE */
-  #testimonianze { background: linear-gradient(180deg, var(--black) 0%, var(--gray-100) 100%);
-    border-top: none; }
-  .testi-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 2rem; margin-top: 4rem; }
-  .testi-card { padding: 2.5rem; background: var(--black); border: var(--border-subtle); border-radius: 16px; display: flex; flex-direction: column; transition: var(--transition-smooth); }
-  .testi-card:hover { border-color: rgba(255,255,255,0.1); box-shadow: var(--shadow-premium); }
+  #testimonianze { 
+    background: linear-gradient(180deg, var(--black) 0%, var(--gray-100) 100%);
+    border-top: none; 
+    overflow: hidden; /* Evita che si crei scroll orizzontale nella pagina */
+  }
+  
+  /* Contenitore principale dello slider */
+  .marquee-wrapper {
+    width: 100%; 
+    overflow: hidden; 
+    position: relative; 
+    margin-top: 4rem; 
+    /* Crea un effetto sfumato ai lati per far comparire/sparire le card dolcemente */
+    -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+    mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+  }
+  /* Nasconde la barra di scorrimento ma mantiene lo scroll (usato su mobile) */
+  .marquee-wrapper::-webkit-scrollbar { display: none; }
+  .marquee-wrapper { -ms-overflow-style: none; scrollbar-width: none; }
+  
+  /* La traccia che si muove */
+  .marquee-track { 
+    display: flex; 
+    gap: 2rem; 
+    width: max-content; 
+    animation: scroll 40s linear infinite; /* 40 secondi per un giro completo, cambialo per la velocità */
+  }
+  
+  /* Mette in pausa l'animazione se ci passi sopra */
+  .marquee-wrapper:hover .marquee-track { 
+    animation-play-state: paused; 
+  }
+  
+  /* La singola card riadattata per lo slider responsivo */
+  .testi-card { 
+    /* La magia è qui: 85vw = 85% dello schermo su mobile, limite massimo 450px su PC */
+    width: clamp(280px, 85vw, 450px); 
+    flex-shrink: 0; 
+    /* Anche lo spazio interno si rimpicciolisce proporzionalmente su telefono */
+    padding: clamp(1.5rem, 5vw, 2.5rem); 
+    background: var(--black); 
+    border: var(--border-subtle); 
+    border-radius: 16px; 
+    display: flex; 
+    flex-direction: column; 
+    transition: var(--transition-smooth); 
+  }
+  
+  .testi-card:hover { border-color: rgba(255,255,255,0.1); box-shadow: var(--shadow-premium); transform: translateY(-5px); }
   .testi-stars { color: var(--accent); font-size: 1rem; margin-bottom: 1.2rem; letter-spacing: 3px; }
   .testi-text { font-size: 1.05rem; color: var(--gray-600); line-height: 1.8; flex: 1; margin-bottom: 2rem; font-weight: 400; }
   .testi-author { display: flex; align-items: center; gap: 14px; border-top: var(--border-subtle); padding-top: 1.5rem; }
   .testi-avatar { width: 44px; height: 44px; border-radius: 50%; background: var(--gray-200); display: flex; align-items: center; justify-content: center; font-family: var(--font-display); font-weight: 700; font-size: 0.9rem; color: var(--white); }
   .testi-name { font-weight: 600; font-size: 0.95rem; color: var(--white); }
   .testi-role { font-size: 0.8rem; color: var(--gray-500); }
+
+  /* Indizio swipe — nascosto su Desktop, visibile solo su Mobile via media query */
+  .swipe-hint {
+    display: none;
+  }
+
+  /* Animazione di scorrimento infinito */
+  @keyframes scroll { 
+    0% { transform: translateX(0); } 
+    100% { transform: translateX(calc(-50% - 1rem)); } /* -50% meno metà del gap */
+  }
 
   /* CONTATTI & FORM */
   #contatti { background: linear-gradient(180deg, var(--gray-100) 0%, var(--black) 100%);
@@ -383,12 +438,72 @@
   @media (max-width: 900px) {
     .story-grid, .contact-layout, .results-header { grid-template-columns: 1fr; gap: 3rem; }
     .story-left, .contact-left { position: static; }
-    .services-grid, .testi-grid, .proof-cards { grid-template-columns: 1fr; }
+    .services-grid, .proof-cards { grid-template-columns: 1fr; }
     .benefits-list { grid-template-columns: 1fr; }
     .hero-stats { gap: 2.5rem; }
     .nav-links { display: none; }
     .hamburger { display: flex; }
     .form-row { grid-template-columns: 1fr; }
+    .testi-card { width: 320px; padding: 1.8rem; }
+    .testi-text {
+      font-size: 0.95rem; /* Testo leggermente più piccolo */
+      line-height: 1.6;
+      margin-bottom: 1.5rem;
+    } /* ← parentesi graffa di chiusura mancante, ora corretta */
+
+    /* Nasconde i duplicati marquee su mobile */
+    .hide-on-mobile {
+      display: none !important;
+    }
+
+    /* Indizio swipe — visibile solo su mobile */
+    .swipe-hint {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      margin: 0.8rem auto 0;
+      color: var(--gray-500);
+      font-size: 0.78rem;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      text-align: center;
+    }
+    .swipe-hint-icon {
+      display: flex;
+      align-items: center;
+      color: var(--gray-400);
+      opacity: 0.7;
+    }
+    .swipe-hint-text {
+      color: var(--gray-500);
+    }
+
+    .marquee-wrapper {
+      overflow-x: auto; /* Abilita lo scorrimento orizzontale con il dito */
+      overflow-y: hidden;
+      scroll-snap-type: x mandatory; /* Effetto calamita per le card */
+      -webkit-overflow-scrolling: touch; /* Scorrimento fluido per iOS */
+      -webkit-mask-image: none; /* Togliamo la sfumatura laterale che su mobile dà fastidio */
+      mask-image: none;
+      /* Padding laterale asimmetrico: crea l'effetto "peek" della card successiva */
+      padding: 0 10% 1rem 5%;
+    }
+
+    .marquee-track {
+      animation: none !important; /* Blocca l'animazione automatica */
+      transform: translateX(0) !important; /* Resetta la posizione */
+      padding: 0; /* Il padding ora è sul wrapper per l'effetto peek */
+      gap: 1rem; /* Gap ridotto su mobile */
+    }
+
+    /* Effetto peek: la card occupa ~82vw, lasciando ~18vw visibile della successiva */
+    .testi-card {
+      width: 82vw;
+      max-width: 360px;
+      scroll-snap-align: center; /* Calamita la card al centro dello schermo */
+      flex-shrink: 0;
+    }
   }
   @media (max-width: 600px) {
     section { padding: 80px 1.2rem; }
@@ -448,7 +563,7 @@
       <div class="story-left reveal">
         <div class="story-portrait">
           <img src="immagineWilli.jpg" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0; object-position: top;">
-          <div class="story-tag">William Rossetti · Trader e Marketer</div>
+          <div class="story-tag">William Rossetti · Imprenditore digitale</div>
         </div>
       </div>
       <div class="story-right">
@@ -544,54 +659,109 @@
 </section>	
 
 <section id="testimonianze">
-  <div class="container">
-    <div class="section-eyebrow reveal">Testimonianze</div>
-    <h2 class="section-title reveal">Cosa dicono le persone nel programma</h2>
+  <div class="container" style="max-width: 100%; padding: 0 2rem;">
+    <div class="section-eyebrow reveal" style="text-align: center;">Testimonianze</div>
+    <h2 class="section-title reveal" style="text-align: center;">Cosa dicono i membri del Team</h2>
 
-    <div class="testi-grid">
-      <div class="testi-card reveal">
-        <div class="testi-avatar">AC</div>
+    <!-- Indizio visivo swipe — visibile solo su mobile via CSS -->
+    <div class="swipe-hint">
+      <span class="swipe-hint-icon">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="15 18 9 12 15 6"></polyline>
+        </svg>
+      </span>
+      <span class="swipe-hint-text">Scorri per leggere</span>
+      <span class="swipe-hint-icon">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="9 18 15 12 9 6"></polyline>
+        </svg>
+      </span>
+    </div>
+
+    <div class="marquee-wrapper reveal">
+      <div class="marquee-track">
+        
+        <div class="testi-card">
+          <div class="testi-avatar">AC</div>
           <div>
             <div class="testi-name">Alessandro Colella</div>
             <div class="testi-role">19 anni · Studente di fisica</div>
-        <div class="testi-stars">★★★★★</div>
-        <p class="testi-text">"Azienda top 1 sul mercato in questo mondo, mai trovato un’ecosistema fatto così bene, con formazione aggiornata da professionisti e strumenti validissimi per guadagnare con poco tempo e con il pc nel mentre si studia un topic così importante quale è l’educazione finanziaria. Impeccabile anche il supporto della community e della super disponibilità di William, un ragazzo eccezionale, che mi insegna tutto ciò che sa e mi aiuta 24/7 con i miei progressi. Con lui oggi condivido un vero e proprio percorso di crescita e di amicizia al di là del lavoro. Una vera e propria famiglia ✨"</p>
-        <div class="testi-author">
+	    <div class="testi-stars">★★★★★</div>
+            <p class="testi-text">"Azienda top 1 sul mercato in questo mondo, mai trovato un’ecosistema fatto così bene, con formazione aggiornata da professionisti e strumenti validissimi per guadagnare con poco tempo e con il pc, nel mentre che si studia un topic così importante quale è l’educazione finanziaria."</p>
           </div>
         </div>
-      </div>
-      <div class="testi-card reveal">
-        <div class="testi-avatar">GM</div>
+
+        <div class="testi-card">
+          <div class="testi-avatar">GM</div>
           <div>
             <div class="testi-name">Gabriele Montemagno</div>
             <div class="testi-role">21 anni · Studente di Economia</div>
-        <div class="testi-stars">★★★★★</div>
-        <p class="testi-text">"Ho iniziato ormai un anno fa e devo dire che mi rendo conto che ho fatto tanti step avanti, percorso ad oggi che mi ha dato tanto, day by day seguito e supportato."</p>
-        <div class="testi-author">
+            <div class="testi-stars">★★★★★</div>
+            <p class="testi-text">"Ho iniziato ormai un anno fa e devo dire che mi rendo conto che ho fatto tanti step avanti, percorso ad oggi che mi ha dato tanto, day by day seguito e supportato."</p>
           </div>
         </div>
-      </div>
-      <div class="testi-card reveal">
-        <div class="testi-avatar">MB</div>
+
+        <div class="testi-card">
+          <div class="testi-avatar">MB</div>
           <div>
             <div class="testi-name">Mayan Bulatovic</div>
             <div class="testi-role">19 anni · Studente di informatica</div>
-        <div class="testi-stars">★★★★★</div>
-        <p class="testi-text">"Ho iniziato quest’attività da qualche mese e non tornerei mai indietro: è stata davvero una delle migliori scelte che abbia mai fatto in quanto mi ha permesso di avere una visione più chiara su ciò che voglio fare. Sopratutto mi sono trovato super affiancato dalla community , cosa che in altre attività non ho mai avuto e che solo ora mi sto rendendo conto di quanto sia importante, in particolare sono stato affiancato da William che ogni giorno nonostante fosse super impegnato è riuscito a guidarmi e aiutarmi soprattutto quando ero all’inizio e ad oggi siamo grandi amici. Questo tipo di attività non mi sta portando solo risultati materiali, ma mi sta rendendo anche una persona migliore in tutti gli aspetti della mia vita."</p>
-        <div class="testi-author">
+            <div class="testi-stars">★★★★★</div>
+            <p class="testi-text">"Ho iniziato quest’attività da qualche mese e non tornerei mai indietro: è stata davvero una delle migliori scelte che abbia mai fatto in quanto mi ha permesso di avere una visione più chiara su ciò che voglio fare. Sopratutto mi sono trovato super affiancato dalla community"</p>
           </div>
         </div>
-      </div>
-      <div class="testi-card reveal">
-        <div class="testi-avatar">GD</div>
+
+        <div class="testi-card">
+          <div class="testi-avatar">GD</div>
           <div>
             <div class="testi-name">Giorgio De Carli</div>
             <div class="testi-role">21 anni · Ex animatore</div>
-        <div class="testi-stars">★★★★★</div>
-        <p class="testi-text">"ho trovato in questo gruppo quel " diverso" , quel salto di qualità che cercavo da tempo , mi sono reso conto di come con strumenti come questi potevo esprimere al meglio il mio potenziale."</p>
-        <div class="testi-author">
+            <div class="testi-stars">★★★★★</div>
+            <p class="testi-text">"Ho trovato in questo gruppo quel 'diverso', quel salto di qualità che cercavo da tempo, mi sono reso conto di come con strumenti come questi potevo esprimere al meglio il mio potenziale."</p>
           </div>
         </div>
+
+        <!-- DUPLICATI per loop marquee su Desktop — nascosti su Mobile con .hide-on-mobile -->
+        <div class="testi-card hide-on-mobile">
+          <div class="testi-avatar">AC</div>
+          <div>
+            <div class="testi-name">Alessandro Colella</div>
+            <div class="testi-role">19 anni · Studente di fisica</div>
+            <div class="testi-stars">★★★★★</div>
+            <p class="testi-text">"Azienda top 1 sul mercato in questo mondo, mai trovato un’ecosistema fatto così bene, con formazione aggiornata da professionisti e strumenti validissimi per guadagnare con poco tempo e con il pc, nel mentre che si studia un topic così importante quale è l’educazione finanziaria."</p>
+          </div>
+        </div>
+
+        <div class="testi-card hide-on-mobile">
+          <div class="testi-avatar">GM</div>
+          <div>
+            <div class="testi-name">Gabriele Montemagno</div>
+            <div class="testi-role">21 anni · Studente di Economia</div>
+            <div class="testi-stars">★★★★★</div>
+            <p class="testi-text">"Ho iniziato ormai un anno fa e devo dire che mi rendo conto che ho fatto tanti step avanti, percorso ad oggi che mi ha dato tanto, day by day seguito e supportato."</p>
+          </div>
+        </div>
+
+        <div class="testi-card hide-on-mobile">
+          <div class="testi-avatar">MB</div>
+          <div>
+            <div class="testi-name">Mayan Bulatovic</div>
+            <div class="testi-role">19 anni · Studente di informatica</div>
+            <div class="testi-stars">★★★★★</div>
+            <p class="testi-text">"Ho iniziato quest’attività da qualche mese e non tornerei mai indietro: è stata davvero una delle migliori scelte che abbia mai fatto in quanto mi ha permesso di avere una visione più chiara su ciò che voglio fare. Sopratutto mi sono trovato super affiancato dalla community"</p>
+          </div>
+        </div>
+
+        <div class="testi-card hide-on-mobile">
+          <div class="testi-avatar">GD</div>
+          <div>
+            <div class="testi-name">Giorgio De Carli</div>
+            <div class="testi-role">21 anni · Ex animatore</div>
+            <div class="testi-stars">★★★★★</div>
+            <p class="testi-text">"Ho trovato in questo gruppo quel 'diverso', quel salto di qualità che cercavo da tempo, mi sono reso conto di come con strumenti come questi potevo esprimere al meglio il mio potenziale."</p>
+          </div>
+        </div>
+
       </div>
     </div>
   </div>
