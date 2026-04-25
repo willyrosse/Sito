@@ -122,15 +122,119 @@
   /* COSA FACCIO */
   #cosa-faccio { background: var(--gray-100); border-top: var(--border-subtle); border-bottom: var(--border-subtle); }
   .services-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem; margin-top: 3rem; }
-  .service-card { background: var(--black); padding: 3rem 2.5rem; border-radius: 16px; border: var(--border-subtle); transition: var(--transition-smooth); }
-  .service-card:hover { transform: translateY(-5px); border-color: rgba(255,255,255,0.1); box-shadow: var(--shadow-premium); }
-  .service-icon { width: 48px; height: 48px; background: var(--accent-dim); color: var(--accent); border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-bottom: 2rem; font-size: 1.4rem; border: 1px solid rgba(59, 130, 246, 0.2); }
+
+  /* Card con position:relative e overflow:hidden per watermark e glow */
+  .service-card {
+    background: var(--black);
+    padding: 3rem 2.5rem;
+    border-radius: 16px;
+    border: var(--border-subtle);
+    transition: var(--transition-smooth);
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* Ambient glow radiale al hover tramite ::before */
+  .service-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 30% 50%, rgba(59, 130, 246, 0.12) 0%, transparent 65%);
+    opacity: 0;
+    transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    pointer-events: none;
+    z-index: 0;
+  }
+  .service-card:hover::before { opacity: 1; }
+  .service-card:hover {
+    transform: translateY(-6px);
+    border-color: rgba(59, 130, 246, 0.2);
+    box-shadow: 0 24px 48px rgba(0,0,0,0.4), 0 0 0 1px rgba(59,130,246,0.08);
+  }
+
+  /* Watermark numerico in background */
+  .service-card::after {
+    content: attr(data-num);
+    position: absolute;
+    bottom: -0.15em;
+    right: 0.1em;
+    font-family: var(--font-display);
+    font-size: 9rem;
+    font-weight: 800;
+    line-height: 1;
+    color: transparent;
+    -webkit-text-stroke: 1px var(--gray-300);
+    opacity: 0.07;
+    pointer-events: none;
+    user-select: none;
+    z-index: 0;
+    transition: opacity 0.4s ease;
+  }
+  .service-card:hover::after { opacity: 0.11; }
+
+  /* Tutti i figli diretti della card sopra lo z-index del glow */
+  .service-card > * { position: relative; z-index: 1; }
+
+  .service-icon {
+    width: 48px; height: 48px;
+    background: var(--accent-dim);
+    color: var(--accent);
+    border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    margin-bottom: 2rem;
+    border: 1px solid rgba(59, 130, 246, 0.2);
+    transition: var(--transition-smooth);
+  }
+  .service-card:hover .service-icon {
+    background: rgba(59, 130, 246, 0.15);
+    border-color: rgba(59, 130, 246, 0.35);
+    box-shadow: 0 0 20px rgba(59, 130, 246, 0.15);
+  }
+  .service-icon svg { width: 22px; height: 22px; stroke: var(--accent); fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+
   .service-title { font-family: var(--font-display); font-size: 1.3rem; font-weight: 600; margin-bottom: 1rem; }
   .service-text { font-size: 1rem; color: var(--gray-500); line-height: 1.7; }
-  
-  .benefits-list { list-style: none; margin-top: 4rem; display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.2rem; }
-  .benefit-item { display: flex; align-items: center; gap: 14px; padding: 1.2rem 1.5rem; background: var(--black); border: var(--border-subtle); border-radius: 12px; font-size: 0.95rem; font-weight: 500; color: var(--gray-600); }
-  .benefit-check { color: var(--accent); font-size: 1.2rem; flex-shrink: 0; }
+
+  /* BENEFITS — layout a pillole */
+  .benefits-list {
+    list-style: none;
+    margin-top: 4rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+  .benefit-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 0.7rem 1.4rem;
+    background: rgba(255, 255, 255, 0.03);
+    border: var(--border-subtle);
+    border-radius: 100px;
+    font-size: 0.88rem;
+    font-weight: 500;
+    color: var(--gray-600);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    transition: var(--transition-smooth);
+  }
+  .benefit-item:hover {
+    border-color: rgba(59, 130, 246, 0.2);
+    color: var(--white);
+    background: rgba(59, 130, 246, 0.05);
+  }
+  /* Dot decorativo al posto della spunta testuale */
+  .benefit-item::before {
+    content: '';
+    display: block;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: var(--accent);
+    opacity: 0.7;
+    flex-shrink: 0;
+  }
+  .benefit-check { display: none; } /* nasconde la vecchia spunta */
 
   /* RISULTATI - VERSIONE NITIDA (SENZA MOVIMENTO) */
 #risultati { 
@@ -600,23 +704,28 @@
     <h2 class="section-title reveal" style="max-width:600px;">Un sistema. Due pilastri. Zero improvvisazione.</h2>
 
     <div class="services-grid reveal">
-      <div class="service-card">
-        <div class="service-icon">⚡</div>
+      <div class="service-card" data-num="01">
+        <div class="service-icon">
+          <!-- Lucide: Zap (fulmine) -->
+          <svg viewBox="0 0 24 24"><polyline points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polyline></svg>
+        </div>
         <div class="service-title">Metodo strutturato</div>
         <p class="service-text">Niente intuizioni. Ogni fase è mappata, testata, ripetibile. Sai esattamente cosa fare e in quale ordine.</p>
       </div>
-      <div class="service-card">
-        <div class="service-icon">🎯</div>
+      <div class="service-card" data-num="02">
+        <div class="service-icon">
+          <!-- Lucide: Target (mirino) -->
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="12" r="6"></circle><circle cx="12" cy="12" r="2"></circle></svg>
+        </div>
         <div class="service-title">Community competente</div>
         <p class="service-text">Non un corso da guardare da soli: verrai affiancato da una community di persone competenti e che hanno già raggiunto i risultati che desideri.</p>
       </div>
     </div>
 
-    <ul class="benefits-list reveal">
-      <li class="benefit-item"><span class="benefit-check">✓</span> Compatibile con Lavoro o Università</li>
-      <li class="benefit-item"><span class="benefit-check">✓</span> Risultati misurabili nei primi 30–60 giorni</li>
-      <li class="benefit-item"><span class="benefit-check">✓</span> Nessuna esperienza richiesta</li>
-      <li class="benefit-item"><span class="benefit-check">✓</span> Sistema scalabile: cresci al tuo ritmo</li>
+    <ul class="benefits-list reveal" style="justify-content: center;">
+      <li class="benefit-item">Compatibile con Lavoro o Università</li>
+      <li class="benefit-item">Risultati misurabili nei primi 30–60 giorni</li>
+      <li class="benefit-item">Nessuna esperienza richiesta</li>
     </ul>
   </div>
 </section>
@@ -686,7 +795,6 @@
           <div>
             <div class="testi-name">Alessandro Colella</div>
             <div class="testi-role">19 anni · Studente di fisica</div>
-	    <div class="testi-stars">★★★★★</div>
             <p class="testi-text">"Azienda top 1 sul mercato in questo mondo, mai trovato un’ecosistema fatto così bene, con formazione aggiornata da professionisti e strumenti validissimi per guadagnare con poco tempo e con il pc, nel mentre che si studia un topic così importante quale è l’educazione finanziaria."</p>
           </div>
         </div>
