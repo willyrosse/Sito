@@ -97,7 +97,7 @@
   
   .hero-stats { display: flex; gap: 4rem; justify-content: center; flex-wrap: wrap; margin-top: 5rem; padding-top: 3rem; border-top: var(--border-subtle); animation: fadeUp 1s 0.3s cubic-bezier(0.16, 1, 0.3, 1) both; }
   .hero-stat { text-align: center; }
-  .hero-stat-num { font-family: var(--font-display); font-size: 2.5rem; font-weight: 700; color: var(--white); display: flex; align-items: center; justify-content: center; gap: 6px; letter-spacing: -0.02em; }
+  .hero-stat-num { font-family: var(--font-display); font-size: 2.5rem; font-weight: 700; color: var(--white); display: flex; align-items: center; justify-content: center; gap: 6px; letter-spacing: -0.02em; min-height: 3.5rem; }
   .hero-stat-label { font-size: 0.8rem; color: var(--gray-500); letter-spacing: 0.05em; margin-top: 4px; font-weight: 500; }
  
   /* SECTION BASE */
@@ -323,6 +323,16 @@
   height: 70%;
 }
  
+/* Regola specifica per la card trading (prima proof-card) — dimensione maggiore + hover ripristinato */
+.proof-cards .proof-card:first-child .proof-card-top img {
+  max-height: 680px;
+  transform: scale(0.97);
+}
+.proof-cards .proof-card:first-child:hover .proof-card-top img {
+  transform: scale(1.03);
+  filter: drop-shadow(0px 25px 45px rgba(0,0,0,0.9));
+}
+
 .proof-card-body { display: none; }
  
 /* Keyframe per il galleggiamento RIMOSSI */
@@ -413,6 +423,20 @@
   #contatti { background: linear-gradient(180deg, var(--gray-100) 0%, var(--black) 100%);
     border-top: none;
     padding-bottom: 150px; }
+
+  /* Wrapper per centrare il badge a tutta larghezza sopra la grid */
+  .contact-badge-wrap {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 3rem;
+  }
+  /* Variante badge più grande per la sezione contatti */
+  .contact-badge {
+    font-size: 0.95rem !important;
+    padding: 0.6rem 1.8rem !important;
+    margin-bottom: 0 !important;
+    animation: none;
+  }
   .contact-layout { display: grid; grid-template-columns: 1fr 1.5fr; gap: 5rem; align-items: start; }
   .contact-left { position: sticky; top: 120px; }
   .contact-desc { font-size: 1.1rem; color: var(--gray-500); line-height: 1.8; margin-bottom: 2.5rem; }
@@ -639,7 +663,6 @@
   <div class="hero-bg"></div>
   <div class="hero-grid"></div>
   <div class="hero-content">
-    <div class="hero-badge">Candidature aperte — Posti limitati</div>
     <h1 class="hero-headline">
       Solo per chi vuole<br>
       <span class="line-2">Salire di livello</span>
@@ -879,6 +902,9 @@
  
 <section id="contatti">
   <div class="container">
+    <div class="contact-badge-wrap">
+      <div class="hero-badge contact-badge">Candidature aperte — Posti limitati</div>
+    </div>
     <div class="contact-layout">
       <div class="contact-left">
         <div class="section-eyebrow reveal">Candidatura</div>
